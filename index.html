@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Operaciones</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #0b0f1a;
+            color: #0ff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #081018;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 2px solid #0ff;
+        }
+
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .panel {
+            background-color: #111a2b;
+            padding: 20px;
+            border: 1px solid #0ff;
+            border-radius: 8px;
+            width: 30%;
+        }
+
+        .mapa {
+            background-color: #0d1726;
+            height: 300px;
+            border: 1px solid #0ff;
+        }
+
+        button {
+            background-color: #ff3300;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:disabled {
+            background-color: #444;
+        }
+
+        #status {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">🛰️ CENTRO DE OPERACIONES MILITARES</div>
+
+    <div class="dashboard">
+        <div class="panel">
+            <h2>Dispositivos</h2>
+            <p id="status">Estado: Inactivo</p>
+            <button id="activarBtn">Activar Operación</button>
+            <button id="abortarBtn" disabled>Abortar Misión</button>
+        </div>
+
+        <div class="panel">
+            <h2>Mapa Táctico</h2>
+            <div class="mapa">📡 Mapa en desarrollo...</div>
+        </div>
+
+        <div class="panel">
+            <h2>Registro</h2>
+            <p id="log">Esperando acciones...</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("activarBtn").addEventListener("click", function() {
+            document.getElementById("status").innerText = "Estado: Operación en curso...";
+            document.getElementById("log").innerText = "🟢 Operación activada.";
+            document.getElementById("activarBtn").disabled = true;
+            document.getElementById("abortarBtn").disabled = false;
+        });
+
+        document.getElementById("abortarBtn").addEventListener("click", function() {
+            document.getElementById("status").innerText = "Estado: Operación cancelada.";
+            document.getElementById("log").innerText = "🔴 Misión abortada.";
+            document.getElementById("activarBtn").disabled = false;
+            document.getElementById("abortarBtn").disabled = true;
+        });
+    </script>
+
+</body>
+</html>
