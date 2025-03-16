@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Operaciones</title>
+    <title>Centro de Control - Hackeo y Cámaras</title>
     <style>
         body {
             font-family: 'Courier New', monospace;
-            background-color: #0b0f1a;
+            background-color: #1a1a1a;
             color: #0ff;
             text-align: center;
             margin: 0;
@@ -15,17 +15,18 @@
         }
 
         .header {
-            background-color: #081018;
+            background-color: #0b0f1a;
             padding: 15px;
             font-size: 24px;
             font-weight: bold;
             border-bottom: 2px solid #0ff;
         }
 
-        .dashboard {
+        .container {
             display: flex;
             justify-content: space-around;
             padding: 20px;
+            margin-top: 20px;
         }
 
         .panel {
@@ -36,9 +37,23 @@
             width: 30%;
         }
 
-        .mapa {
-            background-color: #0d1726;
-            height: 300px;
+        .cameras {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .camera {
+            background-color: #333;
+            width: 150px;
+            height: 150px;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
             border: 1px solid #0ff;
         }
 
@@ -57,49 +72,93 @@
             background-color: #444;
         }
 
-        #status {
+        #status, #timer {
             font-size: 20px;
             margin-top: 20px;
+        }
+
+        .console {
+            background-color: #111a2b;
+            padding: 20px;
+            width: 80%;
+            margin-top: 20px;
+            font-size: 18px;
+            border: 1px solid #0ff;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">🛰️ CENTRO DE OPERACIONES MILITARES</div>
+    <div class="header">💻 CENTRO DE CONTROL - HACKEO Y CÁMARAS</div>
 
-    <div class="dashboard">
+    <div class="container">
+        <!-- Panel de Hackeo -->
         <div class="panel">
-            <h2>Dispositivos</h2>
+            <h2>Hackeo en Proceso</h2>
             <p id="status">Estado: Inactivo</p>
-            <button id="activarBtn">Activar Operación</button>
-            <button id="abortarBtn" disabled>Abortar Misión</button>
+            <input type="text" id="hackInput" placeholder="Introduce código..." />
+            <button id="hackBtn">Iniciar Hackeo</button>
+            <p id="timer"></p>
         </div>
 
+        <!-- Panel de Cámaras -->
         <div class="panel">
-            <h2>Mapa Táctico</h2>
-            <div class="mapa">📡 Mapa en desarrollo...</div>
-        </div>
-
-        <div class="panel">
-            <h2>Registro</h2>
-            <p id="log">Esperando acciones...</p>
+            <h2>Cámaras de Seguridad</h2>
+            <div class="cameras">
+                <div class="camera" id="cam1">Cámara 1</div>
+                <div class="camera" id="cam2">Cámara 2</div>
+                <div class="camera" id="cam3">Cámara 3</div>
+                <div class="camera" id="cam4">Cámara 4</div>
+            </div>
         </div>
     </div>
 
+    <div class="console">
+        <h3>Registro de Actividad</h3>
+        <div id="log">Esperando acción...</div>
+    </div>
+
     <script>
-        document.getElementById("activarBtn").addEventListener("click", function() {
-            document.getElementById("status").innerText = "Estado: Operación en curso...";
-            document.getElementById("log").innerText = "🟢 Operación activada.";
-            document.getElementById("activarBtn").disabled = true;
-            document.getElementById("abortarBtn").disabled = false;
+        let tiempoRestante = 20;
+        let hackeado = false;
+        let intervalo;
+        
+        // Acción para hackear
+        document.getElementById("hackBtn").addEventListener("click", function() {
+            const input = document.getElementById("hackInput").value;
+            if (input === "1234") {
+                hackeado = true;
+                document.getElementById("status").innerText = "Estado: Hackeo completado";
+                document.getElementById("log").innerText = "✔️ Hackeo exitoso. Acceso otorgado.";
+                iniciarCuentaRegresiva();
+            } else {
+                document.getElementById("log").innerText = "❌ Código incorrecto. Reintenta.";
+            }
         });
 
-        document.getElementById("abortarBtn").addEventListener("click", function() {
-            document.getElementById("status").innerText = "Estado: Operación cancelada.";
-            document.getElementById("log").innerText = "🔴 Misión abortada.";
-            document.getElementById("activarBtn").disabled = false;
-            document.getElementById("abortarBtn").disabled = true;
-        });
+        // Función para iniciar cuenta regresiva
+        function iniciarCuentaRegresiva() {
+            document.getElementById("timer").innerText = "Tiempo restante: " + tiempoRestante + "s";
+            intervalo = setInterval(() => {
+                if (!hackeado) return;
+                tiempoRestante--;
+                document.getElementById("timer").innerText = "Tiempo restante: " + tiempoRestante + "s";
+                if (tiempoRestante <= 0) {
+                    clearInterval(intervalo);
+                    document.getElementById("timer").innerText = "";
+                    activarCamaras();
+                }
+            }, 1000);
+        }
+
+        // Activar cámaras después del hackeo
+        function activarCamaras() {
+            document.getElementById("log").innerText = "🔓 Cámaras activadas.";
+            document.getElementById("cam1").innerText = "Cámara 1 - ACTIVA";
+            document.getElementById("cam2").innerText = "Cámara 2 - ACTIVA";
+            document.getElementById("cam3").innerText = "Cámara 3 - ACTIVA";
+            document.getElementById("cam4").innerText = "Cámara 4 - ACTIVA";
+        }
     </script>
 
 </body>
